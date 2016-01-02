@@ -35,15 +35,17 @@
       widthFromWrapper: true, // works only when .getWidthFrom is empty
       responsiveWidth: false
     },
-    $window = $(window),
-    $document = $(document),
+    $window = $('.wrapper'),
+    $document = $('.section-food'),
     sticked = [],
     windowHeight = $window.height(),
     scroller = function() {
       var scrollTop = $window.scrollTop(),
         documentHeight = $document.height(),
-        dwh = documentHeight - windowHeight,
-        extra = (scrollTop > dwh) ? dwh - scrollTop : 0;
+        // dwh = documentHeight - windowHeight,
+        dwh = $('.section-food').height(),
+        // extra = (scrollTop > dwh) ? dwh - scrollTop : 0;
+        extra = 0;
 
       for (var i = 0, l = sticked.length; i < l; i++) {
         var s = sticked[i],
@@ -74,6 +76,7 @@
           } else {
             newTop = s.topSpacing;
           }
+
           if (s.currentTop !== newTop) {
             var newWidth;
             if (s.getWidthFrom) {
@@ -236,12 +239,14 @@
 
   // should be more efficient than using $window.scroll(scroller) and $window.resize(resizer):
   if (window.addEventListener) {
-    window.addEventListener('scroll', scroller, false);
+    // window.addEventListener('scroll', scroller, false);
     window.addEventListener('resize', resizer, false);
   } else if (window.attachEvent) {
-    window.attachEvent('onscroll', scroller);
+    // window.attachEvent('onscroll', scroller);
     window.attachEvent('onresize', resizer);
   }
+
+  $('.scrollable').on('mousewheel', scroller);
 
   $.fn.sticky = function(method) {
     if (methods[method]) {
